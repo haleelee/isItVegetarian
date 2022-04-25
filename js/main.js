@@ -50,10 +50,12 @@ function getFetch(userInput){
           tableRef.deleteRow(i);
         }
 
+        // Vegetarian checker
         for( let key in this.ingredients) {
           let newRow = tableRef.insertRow(-1) // this adds a row  to the end of table
           let newICell = newRow.insertCell(0) // this is for the Ingredient row
           let newVCell = newRow.insertCell(1) // this is for the Vegetarian row
+          let newVeganCell = newRow.insertCell(2)
           let newIText = document.createTextNode(
             this.ingredients[key].text // this is the property under ingredients that we are trying to grab
           )
@@ -71,6 +73,24 @@ function getFetch(userInput){
             //turn item yellow
             newVCell.classList.add('unknown-maybe-item')
           }
+          
+          //Vegan checker
+          let veganStatus = !(this.ingredients[key].vegan) ? 'unknown' : this.ingredients[key].vegan;
+
+          let newVeganText = document.createTextNode(veganStatus);
+          newVeganCell.appendChild(newVeganText);
+
+          if (veganStatus === 'no') {
+            //turn item red
+            newVeganCell.classList.add('non-veg-item')
+
+          } else if (veganStatus === 'unknown' || veganStatus === 'maybe'){
+            //turn item yellow
+            newVeganCell.classList.add('unknown-maybe-item')
+          }
         }
+
+
+
       }
     }
